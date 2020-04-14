@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>987406483611-usp87d268vbsm1loo3ebbdnor0f22fho.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.987406483611-usp87d268vbsm1loo3ebbdnor0f22fho</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>987406483611-ff5dfj0nss20vrqthgtv54g6jn4b35t6.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBFc9dYyiD7yvrlFunD2XAU2xQiQXRkbII</string>
+	<key>GCM_SENDER_ID</key>
+	<string>987406483611</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.StorIt-IOS</string>
+	<key>PROJECT_ID</key>
+	<string>storit-28df0</string>
+	<key>STORAGE_BUCKET</key>
+	<string>storit-28df0.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:987406483611:ios:6d546f3bbdda0e1ad4463e</string>
+	<key>DATABASE_URL</key>
+	<string>https://storit-28df0.firebaseio.com</string>
+</dict>
+</plist>

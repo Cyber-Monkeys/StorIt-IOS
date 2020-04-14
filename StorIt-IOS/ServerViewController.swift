@@ -7,13 +7,19 @@
 //
 
 import UIKit
+import WebRTC
+import Firebase
 
 class ServerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
     
     //variables
     @IBOutlet weak var fab : UIButton!
-    var list = [ "Server 1", "Server 1","Server 1","Server 1","Server 1","Server 1","Server 1","Server 1","Server 1","Server 1","Server 1","Server 1","Server 1","Server 1",]
+    var list:[String] = []
+    var server:WebRTCClient?
     
+    @IBOutlet weak var receivedImg: UIImageView!
+    
+    @IBOutlet weak var tableView: UITableView!
     //set number of rows
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return list.count
@@ -25,7 +31,7 @@ class ServerViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
          as! ServerTableViewCell
         
-         cell.serverName.text = list[indexPath.row]
+        cell.serverName.text = list[indexPath.row]
          
          return cell
         
@@ -56,8 +62,24 @@ class ServerViewController: UIViewController, UITableViewDelegate, UITableViewDa
     //add server popup
     @IBAction func didTapPopup(_ sender: UIButton) {
         let popup = AddServerPopUpViewController.create()
-        let cardPopup = SBCardPopupViewController(contentViewController: popup)
+        let cardPopup = SBCardPopupViewController(contentViewController: popup, completionHandler: createServer)
         cardPopup.show(onViewController: self)
+    }
+    func createServer() {
+        Auth.auth().currentUser?.getIDToken(completion: emitServer)
+    }
+    func emitServer(token:String?, error: Error?) {
+        print("token verified")
+        let devId = UIDevice.current.identifierForVendor?.uuidString
+        print("device id ", devId)
+        self.server = WebRTCClient(img:receivedImg, token:token!, storageSize: 500, devId:devId!)
+//        self.server?.emitServer(token: token!, storageSize: 500, deviceId: devid!)
+        self.list.append("server 1")
+        DispatchQueue.main.async {
+//            let tableView = self.tableView as UITableViewController
+//            self.tableView.
+            self.tableView.reloadData()
+        }
     }
     
     override func viewDidLoad() {

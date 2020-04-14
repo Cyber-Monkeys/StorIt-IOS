@@ -17,21 +17,27 @@ public class SBCardPopupViewController: UIViewController {
     public var disableSwipeToDismiss = false
     public var disableTapToDismiss = false
     public var cornerRadius = CGFloat(7)
+    var completionHandler:()->Void
 
-    public init(contentViewController viewController: UIViewController) {
+    public init(contentViewController viewController: UIViewController, completionHandler:@escaping ()->Void) {
+        self.completionHandler = completionHandler
         contentViewController = viewController
         contentView = viewController.view
         super.init(nibName: nil, bundle: nil)
     }
     
-    public init(contentView view: UIView) {
-        contentViewController = nil
-        contentView = view
-        super.init(nibName: nil, bundle: nil)
-    }
-    
+//    public init(contentView view: UIView) {
+//        contentViewController = nil
+//        contentView = view
+//        super.init(nibName: nil, bundle: nil, completionHandler:()->Void)
+//    }
+//
     public func close() {
         animateOut()
+    }
+    
+    public func closeWithCompletion() {
+        animateOutWithCompletion()
     }
     
     public func show(onViewController viewController: UIViewController) {
@@ -334,6 +340,38 @@ public class SBCardPopupViewController: UIViewController {
         }, completion: {
             _ in
             self.dismiss(animated: false, completion: nil)
+        })
+    }
+    
+    private func animateOutWithCompletion() {
+        
+        view.isUserInteractionEnabled = false
+        state = .animatingOut
+        
+        let duration = 0.6
+
+        // Animate background color
+        UIView.animate(withDuration: duration,
+                       delay: 0.0,
+                       options: [.curveEaseInOut],
+                       animations: {
+                        self.view.backgroundColor = UIColor.clear
+        }, completion: nil)
+        
+        // Animate container off screen
+        containerOffscreenConstraint.isActive = true
+        view.setNeedsUpdateConstraints()
+        
+        UIView.animate(withDuration: duration,
+                       delay: 0.0,
+                       usingSpringWithDamping: 0.8,
+                       initialSpringVelocity: 0,
+                       options: [],
+                       animations: {
+            self.view.layoutIfNeeded()
+        }, completion: {
+            _ in
+            self.dismiss(animated: false, completion: self.completionHandler)
         })
     }
     

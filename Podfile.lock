@@ -266,6 +266,7 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (6.5.1):
     - GoogleUtilities/Logger
+  - GoogleWebRTC (1.1.29400)
   - "gRPC-C++ (0.0.9)":
     - "gRPC-C++/Implementation (= 0.0.9)"
     - "gRPC-C++/Interface (= 0.0.9)"
@@ -305,6 +306,8 @@ DEPENDENCIES:
   - Firebase/Firestore
   - Firebase/Storage
   - GoogleSignIn
+  - GoogleWebRTC
+  - Socket.IO-Client-Swift
   - HGCircularSlider (~> 2.0.0)
 
 SPEC REPOS:
@@ -327,6 +330,7 @@ SPEC REPOS:
     - GoogleDataTransportCCTSupport
     - GoogleSignIn
     - GoogleUtilities
+    - GoogleWebRTC
     - "gRPC-C++"
     - gRPC-Core
     - GTMAppAuth
@@ -334,7 +338,10 @@ SPEC REPOS:
     - HGCircularSlider
     - leveldb-library
     - nanopb
+    - Socket.IO-Client-Swift
+    - Starscream
     - PromisesObjC
+>>>>>>> master
 
 SPEC CHECKSUMS:
   abseil: 18063d773f5366ff8736a050fe035a28f635fd27

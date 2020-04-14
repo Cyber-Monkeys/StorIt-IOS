@@ -101,8 +101,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate{
     @IBAction func didTapForgotPass(_ sender: UIButton) {
         
         let popup = ForgotPasswordPopUpViewController.create()
-        let cardPopup = SBCardPopupViewController(contentViewController: popup)
+        let cardPopup = SBCardPopupViewController(contentViewController: popup, completionHandler: uselessFunc)
         cardPopup.show(onViewController: self)
+        
+    }
+    func uselessFunc() {
         
     }
     

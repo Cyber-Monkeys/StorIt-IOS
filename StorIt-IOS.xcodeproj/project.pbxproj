@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C4E5BBBFF48A56330FBAA0D8 /* Pods_StorIt_IOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC2E7AD8366523B3F254C624 /* Pods_StorIt_IOS.framework */; };
+		C64C791C241B9A6E00A6D482 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = C64C791B241B9A6E00A6D482 /* File.swift */; };
 		0727FACEBC49603AACEAA72A /* libPods-StorIt-IOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A75C640A5236859EC757421 /* libPods-StorIt-IOS.a */; };
 		C6B2B4DD23B155DD0035F586 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6B2B4DC23B155DD0035F586 /* AppDelegate.swift */; };
 		C6B2B4DF23B155DD0035F586 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6B2B4DE23B155DD0035F586 /* SceneDelegate.swift */; };
@@ -16,6 +18,7 @@
 		C6B2B4EC23B155E10035F586 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C6B2B4EA23B155E10035F586 /* LaunchScreen.storyboard */; };
 		C6B2B4F723B155E10035F586 /* StorIt_IOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6B2B4F623B155E10035F586 /* StorIt_IOSTests.swift */; };
 		C6B2B50223B155E10035F586 /* StorIt_IOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6B2B50123B155E10035F586 /* StorIt_IOSUITests.swift */; };
+		C6C6369723E7392D00B29031 /* WebRTCClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C6369623E7392D00B29031 /* WebRTCClient.swift */; };
 		FA55A9A423FDCD2600260768 /* EditPaymentDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA55A9A323FDCD2600260768 /* EditPaymentDetailsViewController.swift */; };
 		FA55A9A623FDCD4F00260768 /* AddCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA55A9A523FDCD4F00260768 /* AddCardViewController.swift */; };
 		FA55A9A823FDCD6C00260768 /* PurchasePlanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA55A9A723FDCD6C00260768 /* PurchasePlanViewController.swift */; };
@@ -70,6 +73,7 @@
 		0A75C640A5236859EC757421 /* libPods-StorIt-IOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StorIt-IOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8DEC980E9E125E735B6DD723 /* Pods-StorIt-IOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StorIt-IOS.release.xcconfig"; path = "Target Support Files/Pods-StorIt-IOS/Pods-StorIt-IOS.release.xcconfig"; sourceTree = "<group>"; };
 		AD7705C54BE511C8AEFD99C6 /* Pods-StorIt-IOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StorIt-IOS.debug.xcconfig"; path = "Target Support Files/Pods-StorIt-IOS/Pods-StorIt-IOS.debug.xcconfig"; sourceTree = "<group>"; };
+		C64C791B241B9A6E00A6D482 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		C6B2B4D923B155DD0035F586 /* StorIT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StorIT.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6B2B4DC23B155DD0035F586 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C6B2B4DE23B155DD0035F586 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -84,6 +88,8 @@
 		C6B2B4FD23B155E10035F586 /* StorIt-IOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "StorIt-IOSUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6B2B50123B155E10035F586 /* StorIt_IOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorIt_IOSUITests.swift; sourceTree = "<group>"; };
 		C6B2B50323B155E10035F586 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C6C6369623E7392D00B29031 /* WebRTCClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebRTCClient.swift; sourceTree = "<group>"; };
+		CC2E7AD8366523B3F254C624 /* Pods_StorIt_IOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StorIt_IOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA55A9A323FDCD2600260768 /* EditPaymentDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPaymentDetailsViewController.swift; sourceTree = "<group>"; };
 		FA55A9A523FDCD4F00260768 /* AddCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardViewController.swift; sourceTree = "<group>"; };
 		FA55A9A723FDCD6C00260768 /* PurchasePlanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchasePlanViewController.swift; sourceTree = "<group>"; };
@@ -185,8 +191,9 @@
 		C6B2B4DB23B155DD0035F586 /* StorIt-IOS */ = {
 			isa = PBXGroup;
 			children = (
-				FA8F1C1A23B23DCA00B3C20C /* GoogleService-Info.plist */,
+				C6C6369623E7392D00B29031 /* WebRTCClient.swift */,
 				C6B2B4DC23B155DD0035F586 /* AppDelegate.swift */,
+				FA8F1C1A23B23DCA00B3C20C /* GoogleService-Info.plist */,
 				C6B2B4DE23B155DD0035F586 /* SceneDelegate.swift */,
 				C6B2B4E223B155DD0035F586 /* Main.storyboard */,
 				FA55A9AD2414E83200260768 /* AddFolderPopUpViewController.swift */,
@@ -196,20 +203,22 @@
 				FA7CBAE223CF2FA1004C7F2A /* TermsAndConditionViewController.swift */,
 				FA7CBAE423CF2FD1004C7F2A /* FAQsViewController.swift */,
 				FA8F1C2623B3723000B3C20C /* MenuTableViewController.swift */,
+				FA8F1C2A23B38C6300B3C20C /* ServerViewController.swift */,
 				FA8F1C2423B26B7F00B3C20C /* SignUpViewController.swift */,
 				FA8F1C2223B2652D00B3C20C /* TabBarViewController.swift */,
 				FAE7AC7B23D1177D00FA3CB8 /* ClientCollectionViewCell.swift */,
 				FA8F1C2023B25DF000B3C20C /* ClientViewController.swift */,
+				C64C791B241B9A6E00A6D482 /* File.swift */,
 				FAE7AC8523D1F7B300FA3CB8 /* MoreOptionsTableViewCell.swift */,
 				FAE7AC7F23D1370000FA3CB8 /* SortByTableViewCell.swift */,
 				FAE7AC7D23D12D0000FA3CB8 /* AddNewTableViewCell.swift */,
-				FA8F1C2A23B38C6300B3C20C /* ServerViewController.swift */,
 				FAE7AC8723D220E700FA3CB8 /* AddServerPopUpViewController.swift */,
 				FAE7AC8B23D22B2000FA3CB8 /* SBCardPopupViewController.swift */,
 				FA7F3FE523F9CF370047CF9E /* EditServerViewController.swift */,
 				FA7F3FE323F18B980047CF9E /* ServerInformationViewController.swift */,
 				FAE7AC7823CFE5F400FA3CB8 /* ServerTableViewCell.swift */,
 				FA8F1C2823B37F8E00B3C20C /* SlideInTransition.swift */,
+				FAE7AC7823CFE5F400FA3CB8 /* ServerTableViewCell.swift */,
 				FA7CBADA23CF1712004C7F2A /* PaymentDetailsViewController.swift */,
 				FA55A9A923FE60AF00260768 /* PaymentDetailsTableViewCell.swift */,
 				FA55A9A323FDCD2600260768 /* EditPaymentDetailsViewController.swift */,
@@ -442,6 +451,7 @@
 				FAE7AC8023D1370000FA3CB8 /* SortByTableViewCell.swift in Sources */,
 				FAE7AC7C23D1177D00FA3CB8 /* ClientCollectionViewCell.swift in Sources */,
 				FA8F1C2B23B38C6300B3C20C /* ServerViewController.swift in Sources */,
+				C64C791C241B9A6E00A6D482 /* File.swift in Sources */,
 				FAE7AC8823D220E700FA3CB8 /* AddServerPopUpViewController.swift in Sources */,
 				FA8F1C2723B3723000B3C20C /* MenuTableViewController.swift in Sources */,
 				FAE7AC7E23D12D0000FA3CB8 /* AddNewTableViewCell.swift in Sources */,
@@ -453,6 +463,7 @@
 				FA8F1C2123B25DF000B3C20C /* ClientViewController.swift in Sources */,
 				FA7CBADD23CF25A9004C7F2A /* PlansViewController.swift in Sources */,
 				FA8F1C2923B37F8E00B3C20C /* SlideInTransition.swift in Sources */,
+				C6C6369723E7392D00B29031 /* WebRTCClient.swift in Sources */,
 				FA55A9AE2414E83200260768 /* AddFolderPopUpViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
