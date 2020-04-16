@@ -274,6 +274,7 @@ class ClientViewController: UIViewController, UICollectionViewDelegate, UICollec
         sortByTxt.isUserInteractionEnabled = true
         sortByTxt.addGestureRecognizer(tapSortBy)
         
+        createProfileInfo()
         loadCurrentDirOfDevice() //load data to collection view
         
         //to go back to previous directory
@@ -516,6 +517,33 @@ class ClientViewController: UIViewController, UICollectionViewDelegate, UICollec
                 print("Error writing document: \(err)")
             }else{
                 print("Document successfully written!")
+            }
+        }
+    } // end of updateCurrentDirOfDevice
+    
+    private func createProfileInfo(){ //add userProfile if it not exist in Firebase
+        let firebaseAuth = Auth.auth()
+        let email = firebaseAuth.currentUser!.email
+        let username = firebaseAuth.currentUser!.displayName
+        db.collection("Users").document(userId).getDocument {
+            (document, error) in
+            if let document = document , !document.exists {
+                let dataToSave: [String : Any] = [
+                    "Username" : username,
+                    "Name" : username,
+                    "Email" : email,
+                    "Birthdate" : Date()
+                ]
+                self.db.collection("Users").document(self.userId).setData(dataToSave)
+                { err in
+                    if let err = err {
+                        print("Error writing document: \(err)")
+                    }else{
+                        print("Document successfully written!")
+                    }
+                }
+            } else {
+                print("Document exist")
             }
         }
     }
