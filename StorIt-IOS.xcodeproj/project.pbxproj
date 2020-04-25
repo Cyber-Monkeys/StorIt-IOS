@@ -16,13 +16,9 @@
 		C6B2B4EC23B155E10035F586 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C6B2B4EA23B155E10035F586 /* LaunchScreen.storyboard */; };
 		C6B2B4F723B155E10035F586 /* StorIt_IOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6B2B4F623B155E10035F586 /* StorIt_IOSTests.swift */; };
 		C6B2B50223B155E10035F586 /* StorIt_IOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6B2B50123B155E10035F586 /* StorIt_IOSUITests.swift */; };
-		FA55A9A423FDCD2600260768 /* EditPaymentDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA55A9A323FDCD2600260768 /* EditPaymentDetailsViewController.swift */; };
-		FA55A9A623FDCD4F00260768 /* AddCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA55A9A523FDCD4F00260768 /* AddCardViewController.swift */; };
 		FA55A9A823FDCD6C00260768 /* PurchasePlanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA55A9A723FDCD6C00260768 /* PurchasePlanViewController.swift */; };
-		FA55A9AA23FE60AF00260768 /* PaymentDetailsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA55A9A923FE60AF00260768 /* PaymentDetailsTableViewCell.swift */; };
 		FA55A9AC23FEA50300260768 /* PurchasePlanTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA55A9AB23FEA50300260768 /* PurchasePlanTableViewCell.swift */; };
 		FA55A9AE2414E83200260768 /* AddFolderPopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA55A9AD2414E83200260768 /* AddFolderPopUpViewController.swift */; };
-		FA7CBADB23CF1712004C7F2A /* PaymentDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7CBADA23CF1712004C7F2A /* PaymentDetailsViewController.swift */; };
 		FA7CBADD23CF25A9004C7F2A /* PlansViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7CBADC23CF25A9004C7F2A /* PlansViewController.swift */; };
 		FA7CBADF23CF2DF1004C7F2A /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7CBADE23CF2DF0004C7F2A /* ProfileViewController.swift */; };
 		FA7CBAE123CF2F00004C7F2A /* HelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7CBAE023CF2F00004C7F2A /* HelpViewController.swift */; };
@@ -84,13 +80,9 @@
 		C6B2B4FD23B155E10035F586 /* StorIt-IOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "StorIt-IOSUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6B2B50123B155E10035F586 /* StorIt_IOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorIt_IOSUITests.swift; sourceTree = "<group>"; };
 		C6B2B50323B155E10035F586 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FA55A9A323FDCD2600260768 /* EditPaymentDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPaymentDetailsViewController.swift; sourceTree = "<group>"; };
-		FA55A9A523FDCD4F00260768 /* AddCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardViewController.swift; sourceTree = "<group>"; };
 		FA55A9A723FDCD6C00260768 /* PurchasePlanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchasePlanViewController.swift; sourceTree = "<group>"; };
-		FA55A9A923FE60AF00260768 /* PaymentDetailsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentDetailsTableViewCell.swift; sourceTree = "<group>"; };
 		FA55A9AB23FEA50300260768 /* PurchasePlanTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchasePlanTableViewCell.swift; sourceTree = "<group>"; };
 		FA55A9AD2414E83200260768 /* AddFolderPopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFolderPopUpViewController.swift; sourceTree = "<group>"; };
-		FA7CBADA23CF1712004C7F2A /* PaymentDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentDetailsViewController.swift; sourceTree = "<group>"; };
 		FA7CBADC23CF25A9004C7F2A /* PlansViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlansViewController.swift; sourceTree = "<group>"; };
 		FA7CBADE23CF2DF0004C7F2A /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		FA7CBAE023CF2F00004C7F2A /* HelpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpViewController.swift; sourceTree = "<group>"; };
@@ -210,10 +202,6 @@
 				FA7F3FE323F18B980047CF9E /* ServerInformationViewController.swift */,
 				FAE7AC7823CFE5F400FA3CB8 /* ServerTableViewCell.swift */,
 				FA8F1C2823B37F8E00B3C20C /* SlideInTransition.swift */,
-				FA7CBADA23CF1712004C7F2A /* PaymentDetailsViewController.swift */,
-				FA55A9A923FE60AF00260768 /* PaymentDetailsTableViewCell.swift */,
-				FA55A9A323FDCD2600260768 /* EditPaymentDetailsViewController.swift */,
-				FA55A9A523FDCD4F00260768 /* AddCardViewController.swift */,
 				FA55A9A723FDCD6C00260768 /* PurchasePlanViewController.swift */,
 				FA55A9AB23FEA50300260768 /* PurchasePlanTableViewCell.swift */,
 				FA7CBADC23CF25A9004C7F2A /* PlansViewController.swift */,
@@ -435,9 +423,7 @@
 				FA7CBAE123CF2F00004C7F2A /* HelpViewController.swift in Sources */,
 				FA7CBADF23CF2DF1004C7F2A /* ProfileViewController.swift in Sources */,
 				FAB6058323D9F0C2009A4758 /* EditProfileViewController.swift in Sources */,
-				FA7CBADB23CF1712004C7F2A /* PaymentDetailsViewController.swift in Sources */,
 				FA8F1C1F23B25CFF00B3C20C /* LoginViewController.swift in Sources */,
-				FA55A9A423FDCD2600260768 /* EditPaymentDetailsViewController.swift in Sources */,
 				FAE7AC7923CFE5F400FA3CB8 /* ServerTableViewCell.swift in Sources */,
 				FAE7AC8023D1370000FA3CB8 /* SortByTableViewCell.swift in Sources */,
 				FAE7AC7C23D1177D00FA3CB8 /* ClientCollectionViewCell.swift in Sources */,
@@ -445,8 +431,6 @@
 				FAE7AC8823D220E700FA3CB8 /* AddServerPopUpViewController.swift in Sources */,
 				FA8F1C2723B3723000B3C20C /* MenuTableViewController.swift in Sources */,
 				FAE7AC7E23D12D0000FA3CB8 /* AddNewTableViewCell.swift in Sources */,
-				FA55A9AA23FE60AF00260768 /* PaymentDetailsTableViewCell.swift in Sources */,
-				FA55A9A623FDCD4F00260768 /* AddCardViewController.swift in Sources */,
 				FAE7AC8C23D22B2000FA3CB8 /* SBCardPopupViewController.swift in Sources */,
 				FA8F1C2323B2652D00B3C20C /* TabBarViewController.swift in Sources */,
 				C6B2B4DF23B155DD0035F586 /* SceneDelegate.swift in Sources */,
