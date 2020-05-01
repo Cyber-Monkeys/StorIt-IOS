@@ -37,6 +37,7 @@ class AddFolderPopUpViewController: UIViewController, SBCardPopupContent  {
         firebaseAuth = Auth.auth()
         userId = firebaseAuth.currentUser!.uid
         // Do any additional setup after loading the view.
+        
     }
     
     @IBAction func tapCancel(_ sender: Any) {
@@ -50,52 +51,49 @@ class AddFolderPopUpViewController: UIViewController, SBCardPopupContent  {
         /*ESPECIALLY DOCUMENT REFERENCE PATH*/
          /*******************************/
         //for adding dir in new child
-        let folderName = String(folderTextField.text!)
-        let backSlash = "/"
-        let newDocumentPath = documentPath + backSlash + folderName + backSlash + userId
-        let dataToSave: [String : Any] = [
-            "dir" : ","
-        ]
-        self.db.document(newDocumentPath).setData(dataToSave)
-        { err in
-            if let err = err {
-                print("Error writing document: \(err)")
-            }else{
-                print("Document successfully written!")
-            }
-        }
-        
-        //update dir of current directory of doc reference
-        let comma = ","
-        let updatedFullDirectory = fullDirectory + comma + folderName
-        let fullDirectoryToSave: [String : Any] = [
-            "dir" : updatedFullDirectory
-        ]
-        self.db.document(documentPath!).updateData(fullDirectoryToSave)
-        { err in
-            if let err = err {
-                print("Error writing document: \(err)")
-            }else{
-                print("Document successfully written!")
-            }
-        }
+//        let folderName = String(folderTextField.text!)
+//        let backSlash = "/"
+//        let newDocumentPath = documentPath + backSlash + folderName + backSlash + userId
+//        let dataToSave: [String : Any] = [
+//            "dir" : ","
+//        ]
+//        self.db.document(newDocumentPath).setData(dataToSave)
+//        { err in
+//            if let err = err {
+//                print("Error writing document: \(err)")
+//            }else{
+//                print("Document successfully written!")
+//            }
+//        }
+//
+//        //update dir of current directory of doc reference
+//        let comma = ","
+//        let updatedFullDirectory = fullDirectory + comma + folderName
+//        let fullDirectoryToSave: [String : Any] = [
+//            "dir" : updatedFullDirectory
+//        ]
+//        self.db.document(documentPath!).updateData(fullDirectoryToSave)
+//        { err in
+//            if let err = err {
+//                print("Error writing document: \(err)")
+//            }else{
+//                print("Document successfully written!")
+//            }
+//        }
+        var newFolder: Folder = Folder(nodeName: String(folderTextField.text!))
+        var clientController = ClientViewController()
+        let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let ClientVC:ClientViewController = storyboard.instantiateViewController(withIdentifier: "ClientVC") as! ClientViewController
+        //clientController.addFolder(newFolder: newFolder)
+        ClientVC.addFolder(newFolder: newFolder)
         
         self.popupViewController?.close()
-        let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-         let tabBarVC:TabBarViewController = storyboard.instantiateViewController(withIdentifier: "TabBarVC") as! TabBarViewController
-         
-         //go to new screen in fullscreen
-        tabBarVC.modalPresentationStyle = .fullScreen
-         self.present(tabBarVC, animated: true, completion: nil)
+//        let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+//         let tabBarVC:TabBarViewController = storyboard.instantiateViewController(withIdentifier: "TabBarVC") as! TabBarViewController
+//         
+//         //go to new screen in fullscreen
+//        tabBarVC.modalPresentationStyle = .fullScreen
+//         self.present(tabBarVC, animated: true, completion: nil)
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+    
 }
