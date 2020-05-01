@@ -59,10 +59,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         var datePicker : UIDatePicker?
         Auth.auth().signIn(with: credential) { (result, error) in
             if error == nil {
-                
+
                 print(result?.user.email)
                 print(result?.user.displayName)
-                
+
                 //set data to fireStore
                 let firebaseAuth = Auth.auth()
                 var userId = firebaseAuth.currentUser!.uid
@@ -72,25 +72,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
                     "Email" : firebaseAuth.currentUser!.email,
                     "Birthdate" : datePicker?.date
                 ]
-                
+
                 //check if document exists
-                db.collection("Users").document(userId).getDocument {
-                    (document, error) in
-                    if let document = document , document.exists {
-                        print("Document does exist")
-                    } else {
-                        print("Document doesn't exist")
-                        db.collection("Users").document(userId).setData(dataToSave)
-                        { err in
-                            if let err = err {
-                                print("Error writing document: \(err)")
-                            }else{
-                                print("Document successfully written!")
-                            }
-                        }
-                    }
-                }
-                
+//                db.collection("Users").document(userId).getDocument {
+//                    (document, error) in
+//                    if let document = document , document.exists {
+//                        print("Document does exist")
+//                    } else {
+//                        print("Document doesn't exist")
+//                        db.collection("Users").document(userId).setData(dataToSave)
+//                        { err in
+//                            if let err = err {
+//                                print("Error writing document: \(err)")
+//                            }else{
+//                                print("Document successfully written!")
+//                            }
+//                        }
+//                    }
+//                }
+
             }else{
                 print(error?.localizedDescription)
             }
