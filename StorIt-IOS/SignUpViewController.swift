@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class SignUpViewController: UIViewController, UITextFieldDelegate {
+class SignUpViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
 
     @IBOutlet weak var mTitle: UILabel!
     @IBOutlet weak var mDatePicker: UITextField!
@@ -19,10 +19,33 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var txtLastName: UITextField!
     @IBOutlet weak var txtPassword: UITextField!
     @IBOutlet weak var txtConfirmPassword: UITextField!
+    var region:String = "EU"
+    let regionNames = ["AP","EU","ME","NA","OC", "SA"]
     
     private var datePicker : UIDatePicker?
     let db = Firestore.firestore()
     var docRef = DocumentReference?.self
+    
+    //region picker
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    //set number of rows in a component
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return regionNames.count
+    }
+    
+    //set title for each row
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return regionNames[row]
+    }
+    
+    //selected row
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        print("\(regionNames[row])")
+        region = regionNames[row]
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -99,6 +122,10 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         let lastName = txtLastName.text!
         let birthDate = datePicker?.date
         
+        let currentUser:User = User(username: username, email: email, name: firstName + " " + lastName, dateOfBirth: birthDate!, region: region)
+        let userPlan:Plan = Plan(planId: 1)
+        currentUser.setPlan(plan: userPlan)
+        
         //check if password is same
         if password == confirmPassword {
             Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
@@ -111,31 +138,36 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
                 //if success, logout and go to login
                 let firebaseAuth = Auth.auth()
                 
-                var userId = firebaseAuth.currentUser!.uid
-                let dataToSave: [String : Any] = [
-                    "Username" : username,
-                    "Name" : firstName + " " + lastName,
-                    "Email" : email,
-                    "Birthdate" : birthDate
+                let userId = firebaseAuth.currentUser!.uid
+                
+                var planData: [String : Any] = [
+                    "planId" : currentUser.getUsername(),
+                    "planStorage" : currentUser.getPlan().getPlanId(),
+                    "planCopies" : currentUser.getPlan().getPlanCopies(),
+                    "planRegions" : currentUser.getPlan().getPlanRegions(),
+                    "planRenewalDate" : currentUser.getPlan().getRenewalDate()
                 ]
-                self.db.collection("Users").document(userId).setData(dataToSave)
+                
+                let user: [String : Any] = [
+                    "Username" : currentUser.getUsername(),
+                    "Name" : currentUser.getName(),
+                    "Email" : currentUser.getEmail(),
+                    "Birthdate" : currentUser.getDateOfBirth(),
+                    "Region" : currentUser.getRegion(),
+                    "plan" : planData
+                ]
+                self.db.collection("Users").document(userId).setData(user)
                 { err in
                     if let err = err {
                         print("Error writing document: \(err)")
                     }else{
-                        print("Document successfully written!")
+                        print("Document successfully written!  \(currentUser.getPlan().getPlanStorage()) hjhjh")
                     }
                 }
-                
-//                do {
-//                  try firebaseAuth.signOut()
-//                    print("user logged out")
-//                    self.dismiss(animated: true, completion: nil)
-//                } catch let signOutError as NSError {
-//                  print ("Error signing out: %@", signOutError)
-//                }
                
             }
+        }else{
+            print("SOMETHING IS WRONG")
         }
         
     }
