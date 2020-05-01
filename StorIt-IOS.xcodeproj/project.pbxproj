@@ -16,8 +16,13 @@
 		C6B2B4EC23B155E10035F586 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C6B2B4EA23B155E10035F586 /* LaunchScreen.storyboard */; };
 		C6B2B4F723B155E10035F586 /* StorIt_IOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6B2B4F623B155E10035F586 /* StorIt_IOSTests.swift */; };
 		C6B2B50223B155E10035F586 /* StorIt_IOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6B2B50123B155E10035F586 /* StorIt_IOSUITests.swift */; };
+		FA3357CA2455FA5400068BC9 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3357C92455FA5400068BC9 /* Node.swift */; };
+		FA3357CC2456393100068BC9 /* Chunk.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3357CB2456393100068BC9 /* Chunk.swift */; };
+		FA3357CE2456397800068BC9 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3357CD2456397800068BC9 /* File.swift */; };
+		FA3357D02456399300068BC9 /* Folder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3357CF2456399300068BC9 /* Folder.swift */; };
+		FA3357D2245639F700068BC9 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3357D1245639F700068BC9 /* User.swift */; };
+		FA3357D424563A0600068BC9 /* Plan.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3357D324563A0600068BC9 /* Plan.swift */; };
 		FA55A9A823FDCD6C00260768 /* PurchasePlanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA55A9A723FDCD6C00260768 /* PurchasePlanViewController.swift */; };
-		FA55A9AC23FEA50300260768 /* PurchasePlanTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA55A9AB23FEA50300260768 /* PurchasePlanTableViewCell.swift */; };
 		FA55A9AE2414E83200260768 /* AddFolderPopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA55A9AD2414E83200260768 /* AddFolderPopUpViewController.swift */; };
 		FA7CBADD23CF25A9004C7F2A /* PlansViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7CBADC23CF25A9004C7F2A /* PlansViewController.swift */; };
 		FA7CBADF23CF2DF1004C7F2A /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7CBADE23CF2DF0004C7F2A /* ProfileViewController.swift */; };
@@ -80,8 +85,13 @@
 		C6B2B4FD23B155E10035F586 /* StorIt-IOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "StorIt-IOSUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6B2B50123B155E10035F586 /* StorIt_IOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorIt_IOSUITests.swift; sourceTree = "<group>"; };
 		C6B2B50323B155E10035F586 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FA3357C92455FA5400068BC9 /* Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
+		FA3357CB2456393100068BC9 /* Chunk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chunk.swift; sourceTree = "<group>"; };
+		FA3357CD2456397800068BC9 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		FA3357CF2456399300068BC9 /* Folder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Folder.swift; sourceTree = "<group>"; };
+		FA3357D1245639F700068BC9 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		FA3357D324563A0600068BC9 /* Plan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plan.swift; sourceTree = "<group>"; };
 		FA55A9A723FDCD6C00260768 /* PurchasePlanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchasePlanViewController.swift; sourceTree = "<group>"; };
-		FA55A9AB23FEA50300260768 /* PurchasePlanTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchasePlanTableViewCell.swift; sourceTree = "<group>"; };
 		FA55A9AD2414E83200260768 /* AddFolderPopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFolderPopUpViewController.swift; sourceTree = "<group>"; };
 		FA7CBADC23CF25A9004C7F2A /* PlansViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlansViewController.swift; sourceTree = "<group>"; };
 		FA7CBADE23CF2DF0004C7F2A /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -181,6 +191,12 @@
 				C6B2B4DC23B155DD0035F586 /* AppDelegate.swift */,
 				C6B2B4DE23B155DD0035F586 /* SceneDelegate.swift */,
 				C6B2B4E223B155DD0035F586 /* Main.storyboard */,
+				FA3357D1245639F700068BC9 /* User.swift */,
+				FA3357D324563A0600068BC9 /* Plan.swift */,
+				FA3357C92455FA5400068BC9 /* Node.swift */,
+				FA3357CF2456399300068BC9 /* Folder.swift */,
+				FA3357CD2456397800068BC9 /* File.swift */,
+				FA3357CB2456393100068BC9 /* Chunk.swift */,
 				FA55A9AD2414E83200260768 /* AddFolderPopUpViewController.swift */,
 				FAB6058423DBB9A3009A4758 /* ForgotPasswordPopUpViewController.swift */,
 				FA8F1C1E23B25CFF00B3C20C /* LoginViewController.swift */,
@@ -203,7 +219,6 @@
 				FAE7AC7823CFE5F400FA3CB8 /* ServerTableViewCell.swift */,
 				FA8F1C2823B37F8E00B3C20C /* SlideInTransition.swift */,
 				FA55A9A723FDCD6C00260768 /* PurchasePlanViewController.swift */,
-				FA55A9AB23FEA50300260768 /* PurchasePlanTableViewCell.swift */,
 				FA7CBADC23CF25A9004C7F2A /* PlansViewController.swift */,
 				FAB6058223D9F0C2009A4758 /* EditProfileViewController.swift */,
 				FA7CBADE23CF2DF0004C7F2A /* ProfileViewController.swift */,
@@ -410,12 +425,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA55A9A823FDCD6C00260768 /* PurchasePlanViewController.swift in Sources */,
+				FA3357CC2456393100068BC9 /* Chunk.swift in Sources */,
 				FA7CBAE523CF2FD1004C7F2A /* FAQsViewController.swift in Sources */,
 				FA7F3FE623F9CF370047CF9E /* EditServerViewController.swift in Sources */,
-				FA55A9AC23FEA50300260768 /* PurchasePlanTableViewCell.swift in Sources */,
+				FA3357CE2456397800068BC9 /* File.swift in Sources */,
 				FAE7AC8623D1F7B300FA3CB8 /* MoreOptionsTableViewCell.swift in Sources */,
 				FA7F3FE423F18B980047CF9E /* ServerInformationViewController.swift in Sources */,
 				C6B2B4DD23B155DD0035F586 /* AppDelegate.swift in Sources */,
+				FA3357D424563A0600068BC9 /* Plan.swift in Sources */,
 				FAB6058523DBB9A3009A4758 /* ForgotPasswordPopUpViewController.swift in Sources */,
 				FA8F1C2523B26B7F00B3C20C /* SignUpViewController.swift in Sources */,
 				C6B2B4E723B155DD0035F586 /* StorIt_IOS.xcdatamodeld in Sources */,
@@ -430,8 +447,11 @@
 				FA8F1C2B23B38C6300B3C20C /* ServerViewController.swift in Sources */,
 				FAE7AC8823D220E700FA3CB8 /* AddServerPopUpViewController.swift in Sources */,
 				FA8F1C2723B3723000B3C20C /* MenuTableViewController.swift in Sources */,
+				FA3357CA2455FA5400068BC9 /* Node.swift in Sources */,
+				FA3357D2245639F700068BC9 /* User.swift in Sources */,
 				FAE7AC7E23D12D0000FA3CB8 /* AddNewTableViewCell.swift in Sources */,
 				FAE7AC8C23D22B2000FA3CB8 /* SBCardPopupViewController.swift in Sources */,
+				FA3357D02456399300068BC9 /* Folder.swift in Sources */,
 				FA8F1C2323B2652D00B3C20C /* TabBarViewController.swift in Sources */,
 				C6B2B4DF23B155DD0035F586 /* SceneDelegate.swift in Sources */,
 				FA8F1C2123B25DF000B3C20C /* ClientViewController.swift in Sources */,
