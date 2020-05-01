@@ -8,23 +8,17 @@
 
 import UIKit
 
-class PurchasePlanViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class PurchasePlanViewController: UIViewController{
     
+    @IBOutlet weak var checkoutButton: UIButton!
+    @IBOutlet weak var txtPlanId: UILabel!
+    @IBOutlet weak var txtPlanCost: UILabel!
+    @IBOutlet weak var txtPlanStorage: UILabel!
+    @IBOutlet weak var txtPlanCopies: UILabel!
+    @IBOutlet weak var txtPlanRegions: UILabel!
     @IBOutlet weak var planThree: UIView!
-    
-    //number of rows in listview
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2;
-    }
-    
-    //initializer for row at
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! PurchasePlanTableViewCell
-                
-        return cell
-        
-    }
+    var planId:Int = 0
+    var isPurchased: Bool = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +30,36 @@ class PurchasePlanViewController: UIViewController, UITableViewDataSource, UITab
         // Do any additional setup after loading the view.
         
         planThree.layer.cornerRadius = 5
+
+        switch(planId){
+        case 1:
+            txtPlanId.text = "Plan 1"
+            txtPlanCost.text = "$5"
+            txtPlanStorage.text = "1 GB"
+            txtPlanCopies.text = "2 copies"
+            txtPlanRegions.text = "1 Region"
+        case 2:
+            txtPlanId.text = "Plan 2"
+            txtPlanCost.text = "$10"
+            txtPlanStorage.text = "5 GB"
+            txtPlanCopies.text = "2 copies"
+            txtPlanRegions.text = "2 Regions"
+        case 3:
+            txtPlanId.text = "Plan 3"
+            txtPlanCost.text = "$15"
+            txtPlanStorage.text = "5 GB"
+            txtPlanCopies.text = "3 copies"
+            txtPlanRegions.text = "2 Regions"
+        default:
+            print("nothing")
+        }
+        
+        if(isPurchased == true){
+            checkoutButton.isHidden = true
+        } else {
+            checkoutButton.isHidden = false
+        }
+        
     }
     
     //Go back
@@ -43,15 +67,6 @@ class PurchasePlanViewController: UIViewController, UITableViewDataSource, UITab
          dismiss(animated: true, completion: nil)
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
 
