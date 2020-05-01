@@ -14,6 +14,9 @@ import MobileCoreServices //import docs
 class ClientViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UISearchBarDelegate {
     
     //variables
+
+    @IBOutlet weak var moveHereButton: UIButton!
+    @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var goBackButton: UIStackView!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var sortByTxt: UILabel!
@@ -54,34 +57,40 @@ class ClientViewController: UIViewController, UICollectionViewDelegate, UICollec
         UIImage(named: "icons8-copy-30")!, UIImage(systemName: "trash")!
     ]
     
-    var tempFileName : [String] = []
-    var fileName : [String] = []
-    var fileType : [UIImage] = []
+    var moveFileDocumentPath: String = " "
+    var fileToMove: Node?
+    var nodeList: Array<Node> = Array()
+    var extra: File = File(fileId: 1, nodeName: "Testing", fileSize: 232, fileType: "dsd", fileKey: "fdfd")
 
     //create object of SlideInTransition class
     let transition = SlideInTransition()
     
     //CollectionView for Client page
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return fileName.count
+        return nodeList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! ClientCollectionViewCell
         
-        cell.fileName.text = fileName[indexPath.row]
-        cell.fileType.image = fileType[indexPath.row]
+        if(nodeList[indexPath.row].getIsFolder()){
+            cell.fileType.image = folderIcon
+        }else{
+            cell.fileType.image = fileIcon
+        }
+        
+        cell.fileName.text = nodeList[indexPath.row].getNodeName()
         cell.moreOptions.tag = indexPath.row
         cell.moreOptions.addTarget(self, action: #selector(ClientViewController.tapMoreOptions(_:)), for: .touchUpInside)
         return cell
     }
     //selecting a cell
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("printed \(fileName[indexPath.row])")
-        if (fileName[indexPath.row].contains("Folder")){
-            documentPath = "\(documentPath)/\(fileName[indexPath.row])/\(userId)"
-            updateCurrentDirOfDevice(currentDir: documentPath) //update dir to firebase
+        print("printed \(nodeList[indexPath.row].getNodeName())")
+        if (nodeList[indexPath.row].getIsFolder()){
+            documentPath = "\(documentPath)/\(nodeList[indexPath.row].getNodeName())/\(userId)"
+            //updateCurrentDirOfDevice(currentDir: documentPath) //update dir to firebase
             loadCurrentDirectory()
         }else {
             //download the file and dislay
@@ -97,9 +106,9 @@ class ClientViewController: UIViewController, UICollectionViewDelegate, UICollec
         var buttonPosition = sender.convert(CGPoint(), to: collectionView)
         var indexPath = collectionView.indexPathForItem(at: buttonPosition)
         positionOfCell = indexPath!.row //set position of cell
-        print("\(positionOfCell) ===== \(fileName[positionOfCell])")
-        moreOptionsList[0] = fileName[positionOfCell]
-        if (fileName[positionOfCell].contains("Folder")){
+        print("\(positionOfCell) ===== \(nodeList[positionOfCell].getNodeName())")
+        moreOptionsList[0] = nodeList[positionOfCell].getNodeName()
+        if (nodeList[positionOfCell].getIsFolder()){
             moreOptionsImage[0] = UIImage(named: "folder_transparent2")!
         } else {
             moreOptionsImage[0] = UIImage(named: "file_transparent2")!
@@ -172,7 +181,7 @@ class ClientViewController: UIViewController, UICollectionViewDelegate, UICollec
         if (searchText == ""){
             loadCurrentDirectory()
         } else {
-            loadDirectory()
+            //loadDirectory()
             searchFileFolder(fileFolderName: searchText)
         }
     }
@@ -193,11 +202,14 @@ class ClientViewController: UIViewController, UICollectionViewDelegate, UICollec
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        nodeList.append(extra) //deelete later pls
+        
         db = Firestore.firestore()
         firebaseAuth = Auth.auth()
         userId = firebaseAuth.currentUser!.uid
-        documentPath = "/Users/\(userId)/TreeNode/\(userId)"
-        rootPath = "/Users/\(userId)/TreeNode/\(userId)"
+        print("MY user id : \(userId)")
+        documentPath = "/Users/\(userId)/TreeNode/1"
+        rootPath = "/Users/\(userId)/TreeNode/1"
         userReference = "/Users/\(userId)"
         
         goBackButton.isHidden = true //hide the view
@@ -239,8 +251,8 @@ class ClientViewController: UIViewController, UICollectionViewDelegate, UICollec
         sortByTxt.addGestureRecognizer(tapSortBy)
         
         createProfileInfo()
-        loadCurrentDirOfDevice() //load data to collection view
-        
+        loadCurrentDirectory() //load data to collection view
+        //updateDirectory()
         //to go back to previous directory
         let tapGoBackButton = UITapGestureRecognizer(target: self, action: #selector(clickGoBackButton))
         goBackButton.isUserInteractionEnabled = true
@@ -261,7 +273,7 @@ class ClientViewController: UIViewController, UICollectionViewDelegate, UICollec
         
         //create tableView
         let screenSize = UIScreen.main.bounds.size
-        sortByTableView.frame = CGRect(x: 0, y: screenSize.height, width: screenSize.width, height: 250)
+        sortByTableView.frame = CGRect(x: 0, y: screenSize.height, width: screenSize.width, height: 100)
         window?.addSubview(sortByTableView)
         
         //to go back to original state
@@ -273,7 +285,7 @@ class ClientViewController: UIViewController, UICollectionViewDelegate, UICollec
         //animation
         UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
             self.transparentView.alpha = 0.5
-            self.sortByTableView.frame = CGRect(x: 0, y: screenSize.height - 250, width: screenSize.width, height: 250)
+            self.sortByTableView.frame = CGRect(x: 0, y: screenSize.height - 100, width: screenSize.width, height: 100)
         }, completion: nil)
         
     }
@@ -284,7 +296,7 @@ class ClientViewController: UIViewController, UICollectionViewDelegate, UICollec
         //animation
         UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
             self.transparentView.alpha = 0
-            self.sortByTableView.frame = CGRect(x: 0, y: screenSize.height, width: screenSize.width, height: 250)
+            self.sortByTableView.frame = CGRect(x: 0, y: screenSize.height, width: screenSize.width, height: 100)
         }, completion: nil)
     }
     
@@ -338,31 +350,82 @@ class ClientViewController: UIViewController, UICollectionViewDelegate, UICollec
     /*---------*/
     /*functions*/
     /*---------*/
-    private func addFile(name : String){
-        fileName.append(name)
-        if (name.contains("Folder")){
-            fileType.append(folderIcon)
-        } else {
-            fileType.append(fileIcon)
-        }
+    private func addFile(addedFile : File){
+        nodeList.append(addedFile)
+        updateDirectory()
+    }
+    
+    public func removeFile(removeFile : File){
+        //remove File
+        self.updateDirectory()
+    }
+    
+    public func refreshAdapter(){
         collectionView.reloadData()
     }
     
-    private func loadDirectory() {
-        fileName.removeAll()
-        fileType.removeAll()
-        var files : [String] = fullDirectory.components(separatedBy: ",")
-        files.remove(at: 0) //delete first element because it creates an empty string
-        for file in files {
-            fileName.append(file)
-            if (file.contains("Folder")){
-                fileType.append(folderIcon)
+    public func addFolder(newFolder : Folder){
+        nodeList.append(newFolder)
+        addFolderDocumentPath(newFolderName: newFolder.getNodeName())
+        self.updateDirectory()
+    }
+    
+    public func addFolderDocumentPath(newFolderName: String){
+        /*******************************/
+        /*BE CAREFUL WITH OPTIONAL*/
+        /*IT WILL CAUSE A LOT OF ERROR IN SENDING STUFF IN FIREBASE*/
+        /*ESPECIALLY DOCUMENT REFERENCE PATH*/
+         /*******************************/
+        //for adding dir in new child
+        let backSlash = "/"
+        let newDocumentPath = documentPath + backSlash + newFolderName + backSlash + userId
+        var arrFile: Array<Node> = Array()
+        let dataToSave: [String : Any] = [
+            "directory" : arrFile
+        ]
+        self.db.document(newDocumentPath).setData(dataToSave)
+        { err in
+            if let err = err {
+                print("Error writing document: \(err)")
             }else{
-                fileType.append(fileIcon)
+                print("Document successfully written!")
             }
         }
-        tempFileName = fileName
-        collectionView.reloadData() //reload data
+
+    }
+    
+    private func updateDirectory(){
+        self.db.document(documentPath).updateData(["directory" : nodeList])
+        { err in
+            if let err = err {
+                print("Error writing document: \(err)")
+            }else{
+                print("Document successfully written!")
+                self.refreshDirectory()
+            }
+        }
+    } // end of updateDirectory
+    
+    public func moveFileUpdateDirectory(movedNodeList: Array<Node>){ //updated the previous directory of the moved file
+        let movedFileDirectory: [String : Any] = [
+            "directory" : movedNodeList
+        ]
+        self.db.document(documentPath).updateData(movedFileDirectory)
+        { err in
+            if let err = err {
+                print("Error writing document: \(err)")
+            }else{
+                print("Document successfully written!")
+                self.refreshDirectory()
+            }
+        }
+        
+    }
+    
+    public func refreshDirectory(){
+        DispatchQueue.main.async {
+            self.refreshAdapter()
+        }
     }
     
     private func loadCurrentDirectory() {
@@ -376,16 +439,28 @@ class ClientViewController: UIViewController, UICollectionViewDelegate, UICollec
         db.document(documentPath).getDocument {
             (document, error) in
             if let document = document , document.exists {
-                let directory = document.get("dir")
-                if (directory != nil){
-                    self.fullDirectory = directory as! String
-                    print(directory)
+                let users: Array<Any> = document.get("directory") as! Array<Any>
+                for element in users {
+                    var user: [String : Any] = element as! [String : Any]
+                    var name: String = user["nodeName"] as! String
+                    var isFolder: Bool = (user["isFolder"] != nil)
+                    if(isFolder){
+                        self.nodeList.append(Folder(nodeName: name))
+                    }else{
+                        var fileKey = user["fileKey"] as! String
+                        var type = user["fileType"] as! String
+                        var fileId = user["fileId"] as! Int
+                        var fileSize = user["fileSize"] as! Int
+                        self.nodeList.append(File(fileId: fileId, nodeName: name, fileSize: fileSize, fileType: type, fileKey: fileKey))
+                    }
                 }
-                self.loadDirectory()
+                self.refreshDirectory()
+                print(users)
             } else {
                 print("Document doesn't exist")
+                var arrFile: Array<Node> = Array()
                 let dataToSave: [String : Any] = [
-                    "dir" : ","
+                    "directory" : arrFile
                 ]
                 self.db.document(self.documentPath).setData(dataToSave)
                 { err in
@@ -416,87 +491,85 @@ class ClientViewController: UIViewController, UICollectionViewDelegate, UICollec
                 documentPath = String(documentPath.dropLast())
             }
         }
-        updateCurrentDirOfDevice(currentDir: documentPath) //update dir to firebase
+        
     }
     
     private func searchFileFolder (fileFolderName : String) {
         //filter the array
-        fileName = fileName.filter({$0.lowercased().prefix(fileFolderName.count) == fileFolderName.lowercased()})
-//        for (i,fileFolder) in tempFileName.enumerated(){
-//            if(!tempFileName[i].lowercased().contains(fileFolderName.lowercased())){
-//                fileName.remove(at: i)
-//                fileType.remove(at: i)
-//                fileType.removeAll({$0.})
-//            }
-//        }
+        nodeList = nodeList.filter({$0.getNodeName().lowercased().prefix(fileFolderName.count) == fileFolderName.lowercased()})
+
         collectionView.reloadData()
     }
     
-    //put current directory of device and send to firebase
-    //will be used so that it updated curr dir when logged in to another device
-    private func loadCurrentDirOfDevice(){
-        db.document(userReference).getDocument {
-            (document, error) in
-            if let document = document , document.exists {
-                let dirOfDevice = document.get("currDirOfDevice")
-                if (dirOfDevice != nil){
-                    self.documentPath = dirOfDevice as! String
-                    self.loadCurrentDirectory()
-                } else { //if it null, create and send to firebase
-                    let currDirOfDevice: [String : Any] = [
-                        "currDirOfDevice" : self.rootPath
-                    ]
-                    self.db.document(self.userReference).updateData(currDirOfDevice)
-                    { err in
-                        if let err = err {
-                            print("Error writing document: \(err)")
-                        }else{
-                            print("Document successfully written!")
-                        }
-                    }
-                    self.loadCurrentDirectory()
-                }
-            } else {
-                print("Failure")
-            }
-        }
-    } //end of loadCurrentDirOfDevice
-    
-    private func updateCurrentDirOfDevice(currentDir : String){
-        let currDirOfDevice: [String : Any] = [
-            "currDirOfDevice" : currentDir
-        ]
-        self.db.document(self.userReference).updateData(currDirOfDevice)
-        { err in
-            if let err = err {
-                print("Error writing document: \(err)")
-            }else{
-                print("Document successfully written!")
-            }
-        }
-    } // end of updateCurrentDirOfDevice
+    public func pressedMoveMoreOptions(fileToMove : Folder){
+        var copyOfDocumentPath = documentPath
+        moveFileDocumentPath = copyOfDocumentPath
+        //clone
+        //make more options invisible
+        //moveHere is visible
+        //cancel is visible
+        self.fileToMove = fileToMove
+    }
     
     private func createProfileInfo(){ //add userProfile if it not exist in Firebase
         let firebaseAuth = Auth.auth()
-        let email = firebaseAuth.currentUser!.email
-        let username = firebaseAuth.currentUser!.displayName
+        let email = firebaseAuth.currentUser!.email!
+        let username = firebaseAuth.currentUser!.displayName!
         db.collection("Users").document(userId).getDocument {
             (document, error) in
+            
+            let currentUser:User = User(username: username, email: email, name: firebaseAuth.currentUser!.displayName!, dateOfBirth: Date(), region: "EU")
+            let userPlan:Plan = Plan(planId: 1)
+            currentUser.setPlan(plan: userPlan)
+            
             if let document = document , !document.exists {
-                let dataToSave: [String : Any] = [
-                    "Username" : username,
-                    "Name" : username,
-                    "Email" : email,
-                    "Birthdate" : Date()
-                ]
-                self.db.collection("Users").document(self.userId).setData(dataToSave)
-                { err in
-                    if let err = err {
-                        print("Error writing document: \(err)")
-                    }else{
-                        print("Document successfully written!")
-                    }
-                }
+                var planData: [String : Any] = [
+                    "planId" : currentUser.getPlan().getPlanId(),
+                    "planStorage" : currentUser.getPlan().getPlanStorage(),
+                     "planCopies" : currentUser.getPlan().getPlanCopies(),
+                     "planRegions" : currentUser.getPlan().getPlanRegions(),
+                     "planRenewalDate" : currentUser.getPlan().getRenewalDate()
+                 ]
+                 
+                 let user: [String : Any] = [
+                     "Username" : currentUser.getUsername(),
+                     "Name" : currentUser.getName(),
+                     "Email" : currentUser.getEmail(),
+                     "Birthdate" : currentUser.getDateOfBirth(),
+                     "Region" : currentUser.getRegion(),
+                     "plan" : planData
+                 ]
+                self.db.collection("Users").document(self.userId).setData(user)
+                 { err in
+                     if let err = err {
+                         print("Error writing document: \(err)")
+                     }else{
+                         print("Document successfully written!  \(currentUser.getPlan().getPlanStorage()) hjhjh")
+                        
+//                        let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+//                        let MenuTVC:MenuTableViewController = storyboard.instantiateViewController(withIdentifier: "MenuTVC") as! MenuTableViewController
+//
+//                        self.db.collection("Users").document(self.userId).getDocument {
+//                            (document, error) in
+//                            if let document = document , document.exists {
+//                                let username = document.get("Username")
+//                                let email = document.get("Email")
+//
+//                                //set username and email in nav drawer
+//                                if username as? String == "" {
+//                                    MenuTVC.usernameTxt.text = "Username"
+//                                }else {
+//                                    MenuTVC.usernameTxt.text = username as? String
+//                                }
+//
+//                                MenuTVC.emailTxt.text = email as? String
+//                            } else {
+//                                print("Document doesn't exist")
+//                            }
+//                        }
+                     }
+                 }
+                
             } else {
                 print("Document exist")
             }
@@ -676,12 +749,12 @@ extension ClientViewController: UITableViewDelegate, UITableViewDataSource {
     //remove file or folder in array and firebase
     private func removefileFolder(){
         print("Position ==== \(positionOfCell)")
-        fileName.remove(at: positionOfCell)
-        fileType.remove(at: positionOfCell)
+        nodeList.remove(at: positionOfCell)
+        nodeList.remove(at: positionOfCell)
         var updatedFullDirectory: String = ""
         let comma = ","
-        for fileFolder in fileName {
-            updatedFullDirectory = updatedFullDirectory + comma + fileFolder
+        for fileFolder in nodeList {
+            updatedFullDirectory = updatedFullDirectory + comma + fileFolder.getNodeName()
         }
         let fullDirectoryToSave: [String : Any] = [
             "dir" : updatedFullDirectory
