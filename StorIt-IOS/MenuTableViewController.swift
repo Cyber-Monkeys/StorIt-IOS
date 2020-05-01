@@ -35,7 +35,7 @@ class MenuTableViewController: UITableViewController {
         
         //Get data from fireStore
         let firebaseAuth = Auth.auth()
-        var userId = firebaseAuth.currentUser!.uid
+        let userId = firebaseAuth.currentUser!.uid
         db.collection("Users").document(userId).getDocument {
             (document, error) in
             if let document = document , document.exists {
@@ -111,42 +111,42 @@ class MenuTableViewController: UITableViewController {
             //go to new screen in fullscreen
             profileNC.modalPresentationStyle = .fullScreen
             self.present(profileNC, animated: true, completion: nil)
-        case 1: //Payment Details
-            let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let paymentDetailsNC:PaymentDetailsNavigationController = storyboard.instantiateViewController(withIdentifier: "PaymentDetailsNC") as! PaymentDetailsNavigationController
-            
-            //go to new screen in fullscreen
-            paymentDetailsNC.modalPresentationStyle = .fullScreen
-            self.present(paymentDetailsNC, animated: true, completion: nil)
-        case 2: //Plans
+        //case 1: //Payment Details
+//            let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+//            let paymentDetailsNC:PaymentDetailsNavigationController = storyboard.instantiateViewController(withIdentifier: "PaymentDetailsNC") as! PaymentDetailsNavigationController
+//
+//            //go to new screen in fullscreen
+//            paymentDetailsNC.modalPresentationStyle = .fullScreen
+//            self.present(paymentDetailsNC, animated: true, completion: nil)
+        case 1: //Plans
             let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             let plansNC:PlansNavigationController = storyboard.instantiateViewController(withIdentifier: "PlansNC") as! PlansNavigationController
             
             //go to new screen in fullscreen
             plansNC.modalPresentationStyle = .fullScreen
             self.present(plansNC, animated: true, completion: nil)
-        case 3: //Help
+        case 2: //Help
             let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             let helpNC:HelpNavigationController = storyboard.instantiateViewController(withIdentifier: "HelpNC") as! HelpNavigationController
             
             //go to new screen in fullscreen
             helpNC.modalPresentationStyle = .fullScreen
             self.present(helpNC, animated: true, completion: nil)
-        case 4: //Terms & Conditions
+        case 3: //Terms & Conditions
             let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             let termsAndConditionNC:TermsAndConditionNavigationController = storyboard.instantiateViewController(withIdentifier: "TermsAndConditionNC") as! TermsAndConditionNavigationController
             
             //go to new screen in fullscreen
             termsAndConditionNC.modalPresentationStyle = .fullScreen
             self.present(termsAndConditionNC, animated: true, completion: nil)
-        case 5: //FAQs
+        case 4: //FAQs
             let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             let faqsNC:FAQsNavigationController = storyboard.instantiateViewController(withIdentifier: "FAQsNC") as! FAQsNavigationController
             
             //go to new screen in fullscreen
             faqsNC.modalPresentationStyle = .fullScreen
             self.present(faqsNC, animated: true, completion: nil)
-        case 6: //Logout
+        case 5: //Logout
             let firebaseAuth = Auth.auth()
             do {
               try firebaseAuth.signOut()
@@ -167,7 +167,7 @@ class MenuTableViewController: UITableViewController {
     func goToLogin(){
         let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let loginVC:LoginViewController = storyboard.instantiateViewController(withIdentifier: "LoginVC") as! LoginViewController
-        
+
         //go to new screen in fullscreen
         loginVC.modalPresentationStyle = .fullScreen
         self.present(loginVC, animated: true, completion: nil)
