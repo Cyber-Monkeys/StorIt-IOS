@@ -18,7 +18,13 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var txtUsername: UILabel!
     @IBOutlet weak var txtName: UILabel!
     private var datePicker : UIDatePicker?
+    @IBOutlet weak var txtPlanStorage: UILabel!
+    @IBOutlet weak var txtPlanCopies: UILabel!
+    @IBOutlet weak var txtPlanCost: UILabel!
+    @IBOutlet weak var txtPlanID: UILabel!
+    @IBOutlet weak var txtRenewalDate: UILabel!
     let db = Firestore.firestore()
+    var currentUser: User!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,16 +42,27 @@ class ProfileViewController: UIViewController {
         db.collection("Users").document(userId).getDocument {
             (document, error) in
             if let document = document , document.exists {
-                let username = document.get("Username")
-                let email = document.get("Email")
-                let name = document.get("Name")
+                let username = document.get("Username") as! String
+                let email = document.get("Email") as! String
+                let name = document.get("Name") as! String
                 let firbirthdate = document.get("Birthdate") as! Timestamp
                 let birthdate = firbirthdate.dateValue()
+                let region = document.get("Region") as! String
+                var planData: [String : Any] = document.get("plan") as! [String : Any]
+                //var planId: Int = Int((planData["planId"] as! NSString).floatValue)
+                var planId: Int = Int(planData["planId"] as! NSNumber)
+                
+                var planRegions: Array<String> = planData["planRegions"] as! Array<String>
+                var firdateInTime: Timestamp = planData["planRenewalDate"] as! Timestamp
+                var planRenewalDate: Date = firdateInTime.dateValue()
+                
+                var plan:Plan = Plan(planId: planId, planRegions: planRegions, planRenewalDate: planRenewalDate)
+                self.currentUser = User(username: username, email: email, name: name, dateOfBirth: birthdate, region: region, plan: plan)
                 
                 //set username and email in nav drawer
-                self.txtEmail.text = email as? String
-                self.txtUsername.text = username as? String
-                self.txtName.text = name as? String
+                self.txtEmail.text = self.currentUser.getEmail()
+                self.txtUsername.text = self.currentUser.getUsername()
+                self.txtName.text = self.currentUser.getName()
                 
                 if birthdate == nil {
                     let date = Date()
@@ -57,12 +74,25 @@ class ProfileViewController: UIViewController {
                     self.txtBirthdate.text = myDate
                 }else {
                     let calendar = Calendar.current
-                    let year = calendar.component(.year, from: birthdate)
-                    let day = calendar.component(.day, from: birthdate )
-                    let month = calendar.component(.month, from: birthdate )
+                    let year = calendar.component(.year, from: self.currentUser.dateOfBirth)
+                    let day = calendar.component(.day, from: self.currentUser.dateOfBirth)
+                    let month = calendar.component(.month, from: self.currentUser.dateOfBirth)
                     let myDate = "\(day)/\(month)/\(year)"
                     self.txtBirthdate.text = myDate
                 }
+                
+                self.txtPlanID.text = "Plan \(self.currentUser.getPlan().getPlanId())"
+                self.txtPlanCopies.text = "\(self.currentUser.getPlan().getPlanCopies()) copies"
+                self.txtPlanStorage.text = "\(self.currentUser.getPlan().getPlanStorage()) GB"
+                
+                let calendar = Calendar.current
+                let year = calendar.component(.year, from: self.currentUser.getPlan().getRenewalDate())
+                let day = calendar.component(.day, from: self.currentUser.getPlan().getRenewalDate())
+                let month = calendar.component(.month, from: self.currentUser.getPlan().getRenewalDate())
+                let renewalDate = "\(day)/\(month)/\(year)"
+                self.txtRenewalDate.text = "Renewal Date: " + renewalDate
+                
+                self.txtPlanCost.text = "$ \(self.currentUser.getPlan().getPlanCost())"
                 
             } else {
                 print("Document doesn't exist")
