@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class AddFolderPopUpViewController: UIViewController, SBCardPopupContent  {
+class AddFolderPopUpViewController: UIViewController, SBCardPopupContent {
     
     //variables
     @IBOutlet weak var folderTextField: UITextField!
@@ -50,50 +50,37 @@ class AddFolderPopUpViewController: UIViewController, SBCardPopupContent  {
         /*IT WILL CAUSE A LOT OF ERROR IN SENDING STUFF IN FIREBASE*/
         /*ESPECIALLY DOCUMENT REFERENCE PATH*/
          /*******************************/
-        //for adding dir in new child
-//        let folderName = String(folderTextField.text!)
-//        let backSlash = "/"
-//        let newDocumentPath = documentPath + backSlash + folderName + backSlash + userId
-//        let dataToSave: [String : Any] = [
-//            "dir" : ","
-//        ]
-//        self.db.document(newDocumentPath).setData(dataToSave)
-//        { err in
-//            if let err = err {
-//                print("Error writing document: \(err)")
-//            }else{
-//                print("Document successfully written!")
-//            }
-//        }
-//
-//        //update dir of current directory of doc reference
-//        let comma = ","
-//        let updatedFullDirectory = fullDirectory + comma + folderName
-//        let fullDirectoryToSave: [String : Any] = [
-//            "dir" : updatedFullDirectory
-//        ]
-//        self.db.document(documentPath!).updateData(fullDirectoryToSave)
-//        { err in
-//            if let err = err {
-//                print("Error writing document: \(err)")
-//            }else{
-//                print("Document successfully written!")
-//            }
-//        }
-        var newFolder: Folder = Folder(nodeName: String(folderTextField.text!))
-        var clientController = ClientViewController()
+        
+        let newFolder: Folder! = Folder(nodeName: String(folderTextField.text!))
         let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let ClientVC:ClientViewController = storyboard.instantiateViewController(withIdentifier: "ClientVC") as! ClientViewController
-        //clientController.addFolder(newFolder: newFolder)
-        ClientVC.addFolder(newFolder: newFolder)
+        
+        let tabBarVC:TabBarViewController = storyboard.instantiateViewController(withIdentifier: "TabBarVC") as! TabBarViewController
+
+        let clientNC = tabBarVC.viewControllers![0] as! ClientNavigationController
+        let destClient = clientNC.viewControllers.first as? ClientViewController
+        destClient?.addedFolder = newFolder.getNodeName()
+
+        tabBarVC.modalPresentationStyle = .fullScreen
+        self.present(tabBarVC, animated: true, completion: nil)
+        
+//        let clientNC:ClientNavigationController = storyboard.instantiateViewController(withIdentifier: "ClientNC") as! ClientNavigationController
+//
+//        let destClient = clientNC.viewControllers.first as? ClientViewController
+//
+//        //destClient?.nodeList.append(newFolder)
+//        destClient?.addedFolder = newFolder.getNodeName()
+//
+//        clientNC.modalPresentationStyle = .fullScreen
+//        self.present(clientNC, animated: true, completion: nil)
+        
+        
+//        let tabBarVC:TabBarViewController = storyboard.instantiateViewController(withIdentifier: "TabBarVC") as! TabBarViewController
+//
+//          //go to new screen in fullscreen
+//        tabBarVC.modalPresentationStyle = .fullScreen
+//        self.present(tabBarVC, animated: true, completion: nil)
         
         self.popupViewController?.close()
-//        let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-//         let tabBarVC:TabBarViewController = storyboard.instantiateViewController(withIdentifier: "TabBarVC") as! TabBarViewController
-//         
-//         //go to new screen in fullscreen
-//        tabBarVC.modalPresentationStyle = .fullScreen
-//         self.present(tabBarVC, animated: true, completion: nil)
     }
     
 }
