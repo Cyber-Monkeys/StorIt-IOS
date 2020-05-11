@@ -36,6 +36,7 @@ class ClientViewController: UIViewController, UICollectionViewDelegate, UICollec
     let folderIcon:UIImage = UIImage(named: "folder_transparent2")!
     let fileIcon: UIImage = UIImage(named: "file_transparent2")!
     var positionOfCell : Int = 0
+    var isFileMoved: Bool = false
     
     //For sortby popup
     let sortByImage: [UIImage] = [
@@ -57,10 +58,14 @@ class ClientViewController: UIViewController, UICollectionViewDelegate, UICollec
         UIImage(named: "icons8-copy-30")!, UIImage(systemName: "trash")!
     ]
     
+    var addedFolder:String = " "
     var moveFileDocumentPath: String = " "
     var fileToMove: Node?
-    var nodeList: Array<Node> = Array()
+    var nodeList: Array<Node> = Array<Node>()
+    var tempNodeList: Array<Node> = Array<Node>()
+    var fileToMoveNodeList: Array<Node> = Array<Node>()
     var extra: File = File(fileId: 1, nodeName: "Testing", fileSize: 232, fileType: "dsd", fileKey: "fdfd")
+    var extra2: Folder = Folder(nodeName: "hello")
 
     //create object of SlideInTransition class
     let transition = SlideInTransition()
@@ -76,8 +81,19 @@ class ClientViewController: UIViewController, UICollectionViewDelegate, UICollec
         
         if(nodeList[indexPath.row].getIsFolder()){
             cell.fileType.image = folderIcon
+            cell.moreOptions.isHidden = true
         }else{
             cell.fileType.image = fileIcon
+        }
+        
+        if(isFileMoved){
+            cell.moreOptions.isHidden = true
+        } else {
+            cell.moreOptions.isHidden = false
+            if(nodeList[indexPath.row].getIsFolder()){
+                cell.fileType.image = folderIcon
+                cell.moreOptions.isHidden = true
+            }
         }
         
         cell.fileName.text = nodeList[indexPath.row].getNodeName()
@@ -201,9 +217,7 @@ class ClientViewController: UIViewController, UICollectionViewDelegate, UICollec
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        nodeList.append(extra) //deelete later pls
-        
+
         db = Firestore.firestore()
         firebaseAuth = Auth.auth()
         userId = firebaseAuth.currentUser!.uid
@@ -213,6 +227,8 @@ class ClientViewController: UIViewController, UICollectionViewDelegate, UICollec
         userReference = "/Users/\(userId)"
         
         goBackButton.isHidden = true //hide the view
+        moveHereButton.isHidden = true
+        cancelButton.isHidden = true
         
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -252,6 +268,14 @@ class ClientViewController: UIViewController, UICollectionViewDelegate, UICollec
         
         createProfileInfo()
         loadCurrentDirectory() //load data to collection view
+        nodeList.append(extra)
+        addFolder(newFolder: extra2)
+        
+        if (addedFolder != " "){
+            addFolder(newFolder: Folder(nodeName: addedFolder))
+            addedFolder = " "
+        }
+        
         //updateDirectory()
         //to go back to previous directory
         let tapGoBackButton = UITapGestureRecognizer(target: self, action: #selector(clickGoBackButton))
@@ -265,6 +289,7 @@ class ClientViewController: UIViewController, UICollectionViewDelegate, UICollec
     //popup slide up menu
     @objc func tapSortBy(sender:UITapGestureRecognizer){
         let window = UIApplication.shared.keyWindow //to access nav controller
+        //let window = UIApplication.shared.windows.filter{$0.isKeyWindow}.first
         
         //change its color when pressed
         transparentView.backgroundColor = UIColor.black.withAlphaComponent(0.8)
@@ -356,7 +381,7 @@ class ClientViewController: UIViewController, UICollectionViewDelegate, UICollec
     }
     
     public func removeFile(removeFile : File){
-        //remove File
+        nodeList.removeAll(where: { $0 == removeFile}) // remove all elements that satisfy the predicate
         self.updateDirectory()
     }
     
@@ -366,8 +391,10 @@ class ClientViewController: UIViewController, UICollectionViewDelegate, UICollec
     
     public func addFolder(newFolder : Folder){
         nodeList.append(newFolder)
-        addFolderDocumentPath(newFolderName: newFolder.getNodeName())
-        self.updateDirectory()
+        //addFolderDocumentPath(newFolderName: newFolder.getNodeName())
+        //self.updateDirectory()
+        //collectionView.reloadData()
+        print("THE FILE ISSSSSS \(newFolder.getNodeName())")
     }
     
     public func addFolderDocumentPath(newFolderName: String){
@@ -430,6 +457,7 @@ class ClientViewController: UIViewController, UICollectionViewDelegate, UICollec
     
     private func loadCurrentDirectory() {
         //Get data from fireStore
+        nodeList.removeAll()
         print("Document PATH = \(documentPath)")
         if (documentPath == rootPath) {
             goBackButton.isHidden = true // hide the view
@@ -441,24 +469,24 @@ class ClientViewController: UIViewController, UICollectionViewDelegate, UICollec
             if let document = document , document.exists {
                 let users: Array<Any> = document.get("directory") as! Array<Any>
                 for element in users {
-                    var user: [String : Any] = element as! [String : Any]
-                    var name: String = user["nodeName"] as! String
-                    var isFolder: Bool = (user["isFolder"] != nil)
+                    let user: [String : Any] = element as! [String : Any]
+                    let name: String = user["nodeName"] as! String
+                    let isFolder: Bool = user["isFolder"] as! Bool
                     if(isFolder){
                         self.nodeList.append(Folder(nodeName: name))
                     }else{
-                        var fileKey = user["fileKey"] as! String
-                        var type = user["fileType"] as! String
-                        var fileId = user["fileId"] as! Int
-                        var fileSize = user["fileSize"] as! Int
+                        let fileKey = user["fileKey"] as! String
+                        let type = user["fileType"] as! String
+                        let fileId = user["fileId"] as! Int
+                        let fileSize = user["fileSize"] as! Int
                         self.nodeList.append(File(fileId: fileId, nodeName: name, fileSize: fileSize, fileType: type, fileKey: fileKey))
                     }
                 }
+                self.tempNodeList = self.nodeList
                 self.refreshDirectory()
-                print(users)
             } else {
                 print("Document doesn't exist")
-                var arrFile: Array<Node> = Array()
+                let arrFile: Array<Node> = Array()
                 let dataToSave: [String : Any] = [
                     "directory" : arrFile
                 ]
@@ -495,20 +523,27 @@ class ClientViewController: UIViewController, UICollectionViewDelegate, UICollec
     }
     
     private func searchFileFolder (fileFolderName : String) {
+        
+//        for element in tempNodeList {
+//            nodeList.append(element)
+//        }
+        
         //filter the array
         nodeList = nodeList.filter({$0.getNodeName().lowercased().prefix(fileFolderName.count) == fileFolderName.lowercased()})
 
-        collectionView.reloadData()
+        refreshDirectory()
     }
     
-    public func pressedMoveMoreOptions(fileToMove : Folder){
+    public func pressedMoveMoreOptions(fileToMove : File){
         var copyOfDocumentPath = documentPath
         moveFileDocumentPath = copyOfDocumentPath
-        //clone
-        //make more options invisible
-        //moveHere is visible
-        //cancel is visible
+        fileToMoveNodeList = nodeList
+        isFileMoved = true //for more options
+        collectionView.reloadData()
+        moveHereButton.isHidden = false
+        cancelButton.isHidden = false
         self.fileToMove = fileToMove
+        
     }
     
     private func createProfileInfo(){ //add userProfile if it not exist in Firebase
@@ -574,6 +609,30 @@ class ClientViewController: UIViewController, UICollectionViewDelegate, UICollec
                 print("Document exist")
             }
         }
+    } //end of function
+    
+    
+    @IBAction func moveHereButtonPressed(_ sender: Any) {
+        
+        isFileMoved = false
+        collectionView.reloadData()
+        moveHereButton.isHidden = true
+        cancelButton.isHidden = true
+        
+        if(moveFileDocumentPath == documentPath){
+            print("You cant move on the same directory")
+        } else {
+            nodeList.append(fileToMove!)
+        }
+    }
+    
+    @IBAction func cancelButtonPressed(_ sender: Any) {
+        //var cell = ClientCollectionViewCell()
+        //cell.moreOptions.isHidden = false
+        isFileMoved = false
+        collectionView.reloadData()
+        moveHereButton.isHidden = true
+        cancelButton.isHidden = true
     }
     
 }
@@ -627,14 +686,26 @@ extension ClientViewController: UITableViewDelegate, UITableViewDataSource {
             cell.upload.isUserInteractionEnabled = true
             cell.upload.addGestureRecognizer(tapUpload)
             
+            let tapUploadImage = UITapGestureRecognizer(target: self, action: #selector(ClientViewController.tapUpload))
+            cell.uploadImage.isUserInteractionEnabled = true
+            cell.uploadImage.addGestureRecognizer(tapUploadImage)
+            
 
             let tapSecureUpload = UITapGestureRecognizer(target: self, action: #selector(ClientViewController.tapSecureUpload))
             cell.secureUpload.isUserInteractionEnabled = true
             cell.secureUpload.addGestureRecognizer(tapSecureUpload)
             
+            let tapSecureUploadImage = UITapGestureRecognizer(target: self, action: #selector(ClientViewController.tapSecureUpload))
+            cell.secureUploadImage.isUserInteractionEnabled = true
+            cell.secureUploadImage.addGestureRecognizer(tapSecureUploadImage)
+            
             let tapFolder = UITapGestureRecognizer(target: self, action: #selector(ClientViewController.tapFolder))
             cell.folder.isUserInteractionEnabled = true
             cell.folder.addGestureRecognizer(tapFolder)
+            
+            let tapFolderImage = UITapGestureRecognizer(target: self, action: #selector(ClientViewController.tapFolder))
+            cell.folderImage.isUserInteractionEnabled = true
+            cell.folderImage.addGestureRecognizer(tapFolderImage)
             
             return cell
 
@@ -661,6 +732,7 @@ extension ClientViewController: UITableViewDelegate, UITableViewDataSource {
     }
     //select table view (sortby // moreOptions // addNew)
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        var showFile = self.nodeList[positionOfCell] as! File
         
         if tableView == addNewTableView {
             
@@ -673,10 +745,22 @@ extension ClientViewController: UITableViewDelegate, UITableViewDataSource {
                 print("THIS IS DOWNLOAD BUTTON")
              } else if indexPath.row == 3 { // move
                 print("THIS IS MOVE BUTTON")
+                clickTransparentViewForMoreOptions()
+                pressedMoveMoreOptions(fileToMove: showFile)
              } else if indexPath.row == 4 { // duplicate
                 print("THIS IS DUPLICATE BUTTON")
              } else if indexPath.row == 5 { // details
                 print("THIS IS DETAILS BUTTON")
+                
+                clickTransparentViewForMoreOptions()
+                let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                let fileDetailsController = storyboard.instantiateViewController(withIdentifier: "FileDetails") as! fileDetailsPopUpViewController
+                fileDetailsController.fileName = self.nodeList[positionOfCell].getNodeName()
+                fileDetailsController.fileSize = String(showFile.getFileSize())
+                fileDetailsController.fileType = showFile.getFileType()
+                let cardPopup = SBCardPopupViewController(contentViewController: fileDetailsController)
+                cardPopup.show(onViewController: self)
+                
              } else if indexPath.row == 6 { //backup
                 print("THIS IS BACKUP BUTTON")
              } else if indexPath.row == 7 { // remove
