@@ -18,16 +18,32 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UIImageP
     @IBOutlet weak var editEmail: UITextField!
     @IBOutlet weak var editUsername: UITextField!
     @IBOutlet weak var editName: UITextField!
+    @IBOutlet weak var txtPlanId: UILabel!
+    @IBOutlet weak var txtPlanRenewalDate: UILabel!
+    @IBOutlet weak var txtPlanCost: UILabel!
+    @IBOutlet weak var txtPlanStorage: UILabel!
+    @IBOutlet weak var txtPlanCopies: UILabel!
+    @IBOutlet weak var regionsLayout: UIStackView!
+    var currentUser:User?
+    var plan:Plan?
     var birthdate = ""
     var email = ""
     var username = ""
     var name = ""
+    var region = ""
+    var planId = 0
+    var planRenewalDate = ""
+    var planCopies = 0
+    var planStorage = 0
+    var planCost = 0
+    
+    var planRegions: Array<String> = Array()
     private var datePicker : UIDatePicker?
     let db = Firestore.firestore()
     var docRef = DocumentReference?.self
     var storageRef = Storage.storage().reference()
     let profilePicPicker = UIImagePickerController()
-    let serverNames = ["EU", "NA"]
+    let serverNames = ["AP", "EU","ME", "NA", "OC", "SA"]
     
     //server picker
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -47,6 +63,29 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UIImageP
     //selected row
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         print("\(serverNames[row])")
+        var regions: Array<String> = (currentUser?.getPlan().getPlanRegions())!
+        regions[pickerView.tag] = serverNames[row]
+        currentUser?.getPlan().setPlanRegions(planRegions: regions)
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
+        return 15
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
+        return regionsLayout.frame.width
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        var pickerLabel:UILabel? = (view as? UILabel)
+        if pickerLabel == nil {
+            pickerLabel = UILabel()
+        }
+        pickerLabel?.font.withSize(4)
+        pickerLabel?.textAlignment = .center
+        pickerLabel?.text = serverNames[row]
+        
+        return pickerLabel!
     }
     
     override func viewDidLoad() {
@@ -70,11 +109,61 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UIImageP
         self.editUsername.delegate = self
         self.editName.delegate = self
         
+        var dates = planRenewalDate.components(separatedBy: "/")
+        var dateComponents = DateComponents()
+        dateComponents.year = Int(dates[2])
+        dateComponents.month = Int(dates[1])
+        dateComponents.day = Int(dates[0])
+       
+        var calendar = Calendar.current
+        let mPlanRenewalDate = calendar.date(from: dateComponents)
+        
+        plan = Plan(planId: planId, planRegions: planRegions, planRenewalDate: mPlanRenewalDate!)
+        
+        dates = birthdate.components(separatedBy: "/")
+        dateComponents.year = Int(dates[2])
+        dateComponents.month = Int(dates[1])
+        dateComponents.day = Int(dates[0])
+        let mBirthdate = calendar.date(from: dateComponents)
+        
+        currentUser = User(username: username, email: email, name: name, dateOfBirth: mBirthdate!, region: region , plan: plan!)
+        
         //assign strings to text field
         editBirthdate.text = birthdate
         editEmail.text = email
         editUsername.text = username
         editName.text = name
+        txtPlanId.text = "Plan \(planId)"
+        txtPlanCost.text = "$\(planCost)"
+        txtPlanRenewalDate.text = "Renewal Date: \(planRenewalDate)"
+        txtPlanStorage.text = "\(planStorage) GB"
+        txtPlanCopies.text = "\(planCopies) copies"
+        
+        print(planRegions[0], planRegions[1])
+        var numOfRegion: Int = 0
+        //self.regionsLayout.alignment = .center
+        for region in planRegions {
+            numOfRegion = numOfRegion + 1
+            let regionHeaderTxt: UILabel = UILabel.init(frame: CGRect(x: 4,y: 5,width: self.regionsLayout.frame.width,height: 24))
+            
+            regionHeaderTxt.text = "Region \(numOfRegion)"
+            regionHeaderTxt.textAlignment = .left
+            regionHeaderTxt.font.withSize(10)
+            
+            let regionPicker: UIPickerView = UIPickerView()
+            regionPicker.heightAnchor.constraint(equalToConstant: 35.0).isActive = true
+            regionPicker.widthAnchor.constraint(equalToConstant: 100.0).isActive = true
+            regionPicker.delegate = self as UIPickerViewDelegate
+            regionPicker.dataSource = self as UIPickerViewDataSource
+            
+            var value = serverNames.firstIndex(of: planRegions[numOfRegion-1])
+            regionPicker.selectRow(value! , inComponent: 0, animated: true)
+            regionPicker.tag = numOfRegion - 1
+            
+            //idk.addSubview(regionPicker)
+            self.regionsLayout.addArrangedSubview(regionHeaderTxt)
+            self.regionsLayout.addArrangedSubview(regionPicker)
+        }
         
         //add datepicker
         datePicker = UIDatePicker()
@@ -107,11 +196,21 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UIImageP
         let firebaseAuth = Auth.auth()
         var userId = firebaseAuth.currentUser!.uid
         
+        var planData: [String : Any] = [
+            "planId" : currentUser!.getPlan().getPlanId(),
+            "planStorage" : currentUser!.getPlan().getPlanStorage(),
+            "planCopies" : currentUser!.getPlan().getPlanCopies(),
+            "planRegions" : currentUser!.getPlan().getPlanRegions(),
+            "planRenewalDate" : currentUser!.getPlan().getRenewalDate()
+        ]
+        
         self.db.collection("Users").document(userId).updateData([
             "Name": name,
             "Username": username,
             "Email":email,
-            "Birthdate": birthDate
+            "Birthdate": birthDate,
+            "Region": currentUser!.getRegion(),
+            "plan" : planData
         ]) { err in
             if let err = err {
                 print("Error updating document \(err)")
