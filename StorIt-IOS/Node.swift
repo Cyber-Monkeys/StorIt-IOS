@@ -10,12 +10,12 @@ import UIKit
 
 //just made it class bc there is no abstract in swift
 //protocols exist but not sure if u can use it for polymorphism
-class Node {
+class Node: NSObject {
     
     var nodeName: String!
     var isFolder: Bool!
     
-    init(){
+    override init(){
         self.nodeName = " "
         self.isFolder = false
     }
