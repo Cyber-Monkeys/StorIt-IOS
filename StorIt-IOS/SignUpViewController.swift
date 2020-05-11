@@ -141,8 +141,8 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, UIPickerViewD
                 let userId = firebaseAuth.currentUser!.uid
                 
                 var planData: [String : Any] = [
-                    "planId" : currentUser.getUsername(),
-                    "planStorage" : currentUser.getPlan().getPlanId(),
+                    "planId" : currentUser.getPlan().getPlanId(),
+                    "planStorage" : currentUser.getPlan().getPlanStorage(),
                     "planCopies" : currentUser.getPlan().getPlanCopies(),
                     "planRegions" : currentUser.getPlan().getPlanRegions(),
                     "planRenewalDate" : currentUser.getPlan().getRenewalDate()
