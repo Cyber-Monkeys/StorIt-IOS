@@ -2840,7 +2840,7 @@ Questions</string>
         <!--File Details Pop Up View Controller-->
         <scene sceneID="FXb-Vl-1Xw">
             <objects>
-                <viewController storyboardIdentifier="FileDetails" id="wcJ-Sm-8gj" customClass="FileDetailsPopUpViewController" customModule="StorIT" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FileDetails" id="wcJ-Sm-8gj" customClass="fileDetailsPopUpViewController" customModule="StorIT" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="CsI-Xe-G0t">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="200"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
