@@ -73,13 +73,6 @@ class AddFolderPopUpViewController: UIViewController, SBCardPopupContent {
 //        clientNC.modalPresentationStyle = .fullScreen
 //        self.present(clientNC, animated: true, completion: nil)
         
-        
-//        let tabBarVC:TabBarViewController = storyboard.instantiateViewController(withIdentifier: "TabBarVC") as! TabBarViewController
-//
-//          //go to new screen in fullscreen
-//        tabBarVC.modalPresentationStyle = .fullScreen
-//        self.present(tabBarVC, animated: true, completion: nil)
-        
         self.popupViewController?.close()
     }
     
