@@ -20,7 +20,6 @@ class fileDetailsPopUpViewController: UIViewController, SBCardPopupContent {
     @IBOutlet weak var txtFileSize: UILabel!
     @IBOutlet weak var txtFileType: UILabel!
     
-    
     //let create initiate for popup
     static func create () -> UIViewController {
         let storyboard = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(identifier: "FileDetails") as! fileDetailsPopUpViewController
