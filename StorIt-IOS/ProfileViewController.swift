@@ -12,6 +12,7 @@ import Firebase
 class ProfileViewController: UIViewController {
 
     //variables
+    @IBOutlet weak var regionsLayout: UIStackView!
     @IBOutlet weak var profilePicImage: UIImageView!
     @IBOutlet weak var txtBirthdate: UILabel!
     @IBOutlet weak var txtEmail: UILabel!
@@ -91,8 +92,26 @@ class ProfileViewController: UIViewController {
                 let month = calendar.component(.month, from: self.currentUser.getPlan().getRenewalDate())
                 let renewalDate = "\(day)/\(month)/\(year)"
                 self.txtRenewalDate.text = "Renewal Date: " + renewalDate
-                
                 self.txtPlanCost.text = "$ \(self.currentUser.getPlan().getPlanCost())"
+                
+                var numOfRegion: Int = 0
+                for region in planRegions {
+                    numOfRegion = numOfRegion + 1
+                    let regionHeaderTxt: UILabel = UILabel.init(frame: CGRect(x: 4,y: 5,width: self.regionsLayout.frame.width,height: 24))
+                    
+                    regionHeaderTxt.text = "Region \(numOfRegion)"
+                    regionHeaderTxt.textAlignment = .left
+                    regionHeaderTxt.font.withSize(10)
+                    
+                    let regionTxt: UILabel = UILabel.init(frame: CGRect(x: 4,y: 5,width: self.regionsLayout.frame.width,height: 24))
+                    
+                    regionTxt.text = region
+                    regionTxt.textAlignment = .left
+                    regionTxt.font.withSize(10)
+                    self.regionsLayout.addArrangedSubview(regionHeaderTxt)
+                    self.regionsLayout.addArrangedSubview(regionTxt)
+                }
+                
                 
             } else {
                 print("Document doesn't exist")
@@ -107,12 +126,12 @@ class ProfileViewController: UIViewController {
     //Go back to Menu
     @objc func goBack(){
          //then go to profile page
-          let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-          let tabBarVC:TabBarViewController = storyboard.instantiateViewController(withIdentifier: "TabBarVC") as! TabBarViewController
+        let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let tabBarVC:TabBarViewController = storyboard.instantiateViewController(withIdentifier: "TabBarVC") as! TabBarViewController
           
           //go to new screen in fullscreen
-         tabBarVC.modalPresentationStyle = .fullScreen
-          self.present(tabBarVC, animated: true, completion: nil)
+        tabBarVC.modalPresentationStyle = .fullScreen
+        self.present(tabBarVC, animated: true, completion: nil)
     }
     
     //go to editprofile
@@ -174,10 +193,22 @@ class ProfileViewController: UIViewController {
         let destEditProf = dest?.viewControllers.first as? EditProfileViewController
         
         //send attribute to edit profile
-        destEditProf?.name = txtName!.text!
-        destEditProf?.username = txtUsername.text!
-        destEditProf?.email = txtEmail!.text!
+        destEditProf?.name = currentUser.getName()
+        destEditProf?.username = currentUser.getUsername()
+        destEditProf?.email = currentUser.getEmail()
         destEditProf?.birthdate = txtBirthdate!.text!
+        destEditProf?.region = currentUser.getRegion()
+        destEditProf?.planId = currentUser.getPlan().getPlanId()
+        destEditProf?.planRegions = currentUser.getPlan().getPlanRegions()
+        let calendar = Calendar.current
+        let year = calendar.component(.year, from: self.currentUser.getPlan().getRenewalDate())
+        let day = calendar.component(.day, from: self.currentUser.getPlan().getRenewalDate())
+        let month = calendar.component(.month, from: self.currentUser.getPlan().getRenewalDate())
+        let renewalDate = "\(day)/\(month)/\(year)"
+        destEditProf?.planRenewalDate = renewalDate
+        destEditProf?.planCopies = currentUser.getPlan().getPlanCopies()
+        destEditProf?.planStorage = currentUser.getPlan().getPlanStorage()
+        destEditProf?.planCost = currentUser.getPlan().planCost
         
     }
     
