@@ -22,6 +22,7 @@
 		FA3357D02456399300068BC9 /* Folder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3357CF2456399300068BC9 /* Folder.swift */; };
 		FA3357D2245639F700068BC9 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3357D1245639F700068BC9 /* User.swift */; };
 		FA3357D424563A0600068BC9 /* Plan.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3357D324563A0600068BC9 /* Plan.swift */; };
+		FA3357D6246854B700068BC9 /* fileDetailsPopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3357D5246854B700068BC9 /* fileDetailsPopUpViewController.swift */; };
 		FA55A9A823FDCD6C00260768 /* PurchasePlanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA55A9A723FDCD6C00260768 /* PurchasePlanViewController.swift */; };
 		FA55A9AE2414E83200260768 /* AddFolderPopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA55A9AD2414E83200260768 /* AddFolderPopUpViewController.swift */; };
 		FA7CBADD23CF25A9004C7F2A /* PlansViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7CBADC23CF25A9004C7F2A /* PlansViewController.swift */; };
@@ -91,6 +92,7 @@
 		FA3357CF2456399300068BC9 /* Folder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Folder.swift; sourceTree = "<group>"; };
 		FA3357D1245639F700068BC9 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		FA3357D324563A0600068BC9 /* Plan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plan.swift; sourceTree = "<group>"; };
+		FA3357D5246854B700068BC9 /* fileDetailsPopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fileDetailsPopUpViewController.swift; sourceTree = "<group>"; };
 		FA55A9A723FDCD6C00260768 /* PurchasePlanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchasePlanViewController.swift; sourceTree = "<group>"; };
 		FA55A9AD2414E83200260768 /* AddFolderPopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFolderPopUpViewController.swift; sourceTree = "<group>"; };
 		FA7CBADC23CF25A9004C7F2A /* PlansViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlansViewController.swift; sourceTree = "<group>"; };
@@ -197,6 +199,7 @@
 				FA3357CF2456399300068BC9 /* Folder.swift */,
 				FA3357CD2456397800068BC9 /* File.swift */,
 				FA3357CB2456393100068BC9 /* Chunk.swift */,
+				FA3357D5246854B700068BC9 /* fileDetailsPopUpViewController.swift */,
 				FA55A9AD2414E83200260768 /* AddFolderPopUpViewController.swift */,
 				FAB6058423DBB9A3009A4758 /* ForgotPasswordPopUpViewController.swift */,
 				FA8F1C1E23B25CFF00B3C20C /* LoginViewController.swift */,
@@ -453,6 +456,7 @@
 				FAE7AC8C23D22B2000FA3CB8 /* SBCardPopupViewController.swift in Sources */,
 				FA3357D02456399300068BC9 /* Folder.swift in Sources */,
 				FA8F1C2323B2652D00B3C20C /* TabBarViewController.swift in Sources */,
+				FA3357D6246854B700068BC9 /* fileDetailsPopUpViewController.swift in Sources */,
 				C6B2B4DF23B155DD0035F586 /* SceneDelegate.swift in Sources */,
 				FA8F1C2123B25DF000B3C20C /* ClientViewController.swift in Sources */,
 				FA7CBADD23CF25A9004C7F2A /* PlansViewController.swift in Sources */,
