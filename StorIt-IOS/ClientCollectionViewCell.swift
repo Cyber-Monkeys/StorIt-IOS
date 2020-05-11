@@ -13,6 +13,5 @@ class ClientCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var fileType: UIImageView!
     @IBOutlet weak var fileName: UILabel!
     @IBOutlet weak var moreOptions: UIButton!
-    
   
 }
